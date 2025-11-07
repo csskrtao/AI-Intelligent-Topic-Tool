@@ -1,5 +1,0 @@
-﻿Testing parse_deepseek_ocr_response...
-============================================================
-Parsed 0 blocks
-
-FAILED - no blocks parsed
