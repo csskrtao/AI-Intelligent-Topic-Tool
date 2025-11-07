@@ -1,0 +1,26 @@
+Testing exact regex patterns
+============================================================
+Test string: <|ref|>text<|/ref|><|det|>[[36, 25, 912, 185]]<|/det|>       
+
+Pattern: <\|det\|>
+  Match: True
+  Matched: <|det|>
+
+Pattern: <\/\|det\|>
+  Match: False
+
+Pattern: <\|/det\|>
+  Match: True
+  Matched: <|/det|>
+
+Pattern: <[|]/det[|]>
+  Match: True
+  Matched: <|/det|>
+
+Pattern: <\|det\|>.*?<\/\|det\|>
+  Match: False
+
+Pattern: <\|det\|>.*?<\|/det\|>
+  Match: True
+  Matched: <|det|>[[36, 25, 912, 185]]<|/det|>
+

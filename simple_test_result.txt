@@ -1,0 +1,6 @@
+Regex Test Result
+==================================================
+Pattern: <\|det\|>(\[\[.*?\]\])<\/\|det\|>
+Test string: <|ref|>text<|/ref|><|det|>[[36, 25, 912, 185]]<|/det|>
+Match: False
+FAILED!

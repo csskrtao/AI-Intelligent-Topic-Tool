@@ -167,7 +167,7 @@ def parse_deepseek_ocr_response(content: str) -> List[Dict[str, any]]:
 
     for line in lines:
         # 检查是否包含坐标标记（注意：| 不需要转义，因为在字符类外）
-        det_match = re.search(r'<\|det\|>(\[\[.*?\]\])</\|det\|>', line)
+        det_match = re.search(r'<\|det\|>(\[\[.*?\]\])<\/\|det\|>', line)
 
         if det_match:
             # 保存上一个文本块
@@ -194,14 +194,14 @@ def parse_deepseek_ocr_response(content: str) -> List[Dict[str, any]]:
             current_text_lines = []
 
             # 提取当前行中标记后面的文本
-            text_after_tag = re.sub(r'<\|ref\|>.*?</\|ref\|>', '', line)
-            text_after_tag = re.sub(r'<\|det\|>.*?</\|det\|>', '', text_after_tag)
+            text_after_tag = re.sub(r'<\|ref\|>.*?<\/\|ref\|>', '', line)
+            text_after_tag = re.sub(r'<\|det\|>.*?<\/\|det\|>', '', text_after_tag)
             text_after_tag = text_after_tag.strip()
             if text_after_tag:
                 current_text_lines.append(text_after_tag)
         else:
             # 普通文本行，添加到当前文本块
-            clean_line = re.sub(r'<\|ref\|>.*?</\|ref\|>', '', line)
+            clean_line = re.sub(r'<\|ref\|>.*?<\/\|ref\|>', '', line)
             clean_line = clean_line.strip()
             if clean_line:
                 current_text_lines.append(clean_line)
@@ -229,8 +229,8 @@ def clean_ocr_text(text: str) -> str:
         str: 清理后的纯文本
     """
     # 移除所有 DeepSeek OCR 标记
-    text = re.sub(r'<\|ref\|>.*?</\|ref\|>', '', text)
-    text = re.sub(r'<\|det\|>.*?</\|det\|>', '', text)
+    text = re.sub(r'<\|ref\|>.*?<\/\|ref\|>', '', text)
+    text = re.sub(r'<\|det\|>.*?<\/\|det\|>', '', text)
 
     # 移除多余的空白行
     lines = [line.strip() for line in text.split('\n') if line.strip()]

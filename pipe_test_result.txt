@@ -1,0 +1,24 @@
+Testing different pipe escape methods
+============================================================
+Test string: <|det|>[[36, 25, 912, 185]]<|/det|>
+
+Escaped pipe with backslash:
+  Pattern: <\|det\|>
+  Match: True
+  Matched: <|det|>
+
+Pipe in character class:
+  Pattern: <[|]det[|]>
+  Match: True
+  Matched: <|det|>
+
+Full pattern with backslash:
+  Pattern: <\|det\|>.*?<\|/det\|>
+  Match: True
+  Matched: <|det|>[[36, 25, 912, 185]]<|/det|>
+
+Full pattern with character class:
+  Pattern: <[|]det[|]>.*?<[|]/det[|]>
+  Match: True
+  Matched: <|det|>[[36, 25, 912, 185]]<|/det|>
+
