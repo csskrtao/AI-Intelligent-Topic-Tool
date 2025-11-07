@@ -1,0 +1,26 @@
+# AI 智能切题工具 - 依赖列表
+# Python 版本要求: >= 3.8
+
+# Web 框架
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+# API 调用
+requests>=2.31.0
+
+# 图像处理
+Pillow>=10.0.0
+
+# 环境变量管理
+python-dotenv>=1.0.0
+
+# 文件上传
+python-multipart>=0.0.6
+
+# CORS 支持
+fastapi-cors>=0.0.6
+
+# PDF 处理（P1 功能预留）
+# pdf2image>=1.16.0
+# poppler-utils  # 需要单独安装 Poppler
+

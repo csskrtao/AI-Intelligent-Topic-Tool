@@ -1,0 +1,65 @@
+{
+  "name": "cut_ai",
+  "version": "1.0.0",
+  "description": "AI 智能切题工具 - 自动识别、分割图片中的题目",
+  "main": "electron/main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron:dev": "electron .",
+    "electron:build": "electron-builder",
+    "start": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && npm run electron:dev\"",
+    "backend": "python backend_api.py"
+  },
+  "keywords": [
+    "ocr",
+    "question",
+    "splitter",
+    "electron",
+    "ai"
+  ],
+  "author": "AI Cut Question Tool Team",
+  "license": "ISC",
+  "build": {
+    "appId": "com.cutai.app",
+    "productName": "AI智能切题工具",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "electron/**/*",
+      "dist/**/*",
+      "backend_api.py",
+      "src/**/*",
+      "requirements.txt",
+      ".env.example"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    }
+  },
+  "dependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "antd": "^5.28.0",
+    "axios": "^1.13.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.0",
+    "vite": "^7.2.1"
+  }
+}
