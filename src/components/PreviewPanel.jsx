@@ -9,6 +9,7 @@ import './PreviewPanel.css';
 const PreviewPanel = ({ imageUrl, questions, setQuestions, onReset }) => {
   const [selectedQuestions, setSelectedQuestions] = useState([]);
   const [exporting, setExporting] = useState(false);
+  const [hoveredQuestionId, setHoveredQuestionId] = useState(null);
 
   const handleMerge = () => {
     if (selectedQuestions.length < 2) {
@@ -98,13 +99,19 @@ const PreviewPanel = ({ imageUrl, questions, setQuestions, onReset }) => {
 
       <Row gutter={24} style={{ height: 'calc(100% - 48px)' }}>
         <Col span={12} style={{ height: '100%' }}>
-          <ImageViewer imageUrl={imageUrl} />
+          <ImageViewer
+            imageUrl={imageUrl}
+            questions={questions}
+            selectedQuestionId={hoveredQuestionId}
+            onQuestionHover={setHoveredQuestionId}
+          />
         </Col>
         <Col span={12} style={{ height: '100%' }}>
-          <QuestionList 
+          <QuestionList
             questions={questions}
             selectedQuestions={selectedQuestions}
             setSelectedQuestions={setSelectedQuestions}
+            hoveredQuestionId={hoveredQuestionId}
           />
         </Col>
       </Row>

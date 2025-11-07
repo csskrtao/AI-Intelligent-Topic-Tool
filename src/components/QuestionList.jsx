@@ -5,7 +5,7 @@ import './QuestionList.css';
 
 const { Text, Paragraph } = Typography;
 
-const QuestionList = ({ questions, selectedQuestions, setSelectedQuestions }) => {
+const QuestionList = ({ questions, selectedQuestions, setSelectedQuestions, hoveredQuestionId }) => {
   const handleSelectChange = (questionId, checked) => {
     if (checked) {
       setSelectedQuestions([...selectedQuestions, questionId]);
@@ -54,9 +54,9 @@ const QuestionList = ({ questions, selectedQuestions, setSelectedQuestions }) =>
           renderItem={(question) => (
             <List.Item
               key={question.question_id}
-              className={`question-item ${selectedQuestions.includes(question.question_id) ? 'selected' : ''}`}
+              className={`question-item ${selectedQuestions.includes(question.question_id) ? 'selected' : ''} ${hoveredQuestionId === question.question_id ? 'hovered' : ''}`}
               onClick={() => handleSelectChange(
-                question.question_id, 
+                question.question_id,
                 !selectedQuestions.includes(question.question_id)
               )}
             >

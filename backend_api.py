@@ -7,7 +7,7 @@ import os
 import shutil
 import traceback
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Dict
 from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
@@ -50,6 +50,7 @@ class QuestionResponse(BaseModel):
     question_id: int
     text: str
     has_bounding_box: bool
+    bounding_box: Optional[Dict[str, float]] = None  # 边界框坐标 {x1, y1, x2, y2}
 
 
 class OCRResponse(BaseModel):
@@ -119,16 +120,22 @@ async def upload_and_process(file: UploadFile = File(...)):
         
         # 调用 OCR 服务
         ocr_result = ocr_service.recognize_image(str(temp_file_path))
-        
-        # 分割题目
-        questions = question_splitter.split_text_by_lines(ocr_result.full_text)
-        
+
+        # 分割题目（使用 OCR 结果进行分割，保留边界框坐标）
+        questions = question_splitter.split_ocr_result(ocr_result)
+
         # 构造响应
         question_responses = [
             QuestionResponse(
                 question_id=q.question_id,
                 text=q.text,
-                has_bounding_box=q.bounding_box is not None
+                has_bounding_box=q.bounding_box is not None,
+                bounding_box={
+                    'x1': q.bounding_box.x1,
+                    'y1': q.bounding_box.y1,
+                    'x2': q.bounding_box.x2,
+                    'y2': q.bounding_box.y2
+                } if q.bounding_box else None
             )
             for q in questions
         ]

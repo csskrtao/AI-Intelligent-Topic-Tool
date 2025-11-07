@@ -20,6 +20,12 @@
   border-left: 3px solid #1890ff;
 }
 
+.question-item.hovered {
+  background-color: #fff7e6;
+  border-left: 3px solid #faad14;
+  box-shadow: 0 2px 8px rgba(250, 173, 20, 0.2);
+}
+
 .question-content {
   width: 100%;
 }
