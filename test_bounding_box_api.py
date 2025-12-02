@@ -3,15 +3,32 @@
 验证后端是否正确返回边界框坐标数据
 """
 
-import requests
 import json
 from pathlib import Path
+
+import pytest
+import requests
+
+API_BASE_URL = "http://localhost:8000"
+
+
+def ensure_backend_available(url: str) -> None:
+    """如果后端未启动则跳过测试。"""
+
+    try:
+        # 即使返回 404 也视为服务可达，避免连接失败导致用例中断
+        requests.get(url, timeout=1)
+    except requests.RequestException:
+        pytest.skip("❌ 后端服务未启动，跳过边界框 API 测试")
+
 
 def test_upload_api():
     """测试上传 API 是否返回边界框数据"""
     
     # API 端点
-    url = "http://localhost:8000/api/upload"
+    ensure_backend_available(API_BASE_URL)
+
+    url = f"{API_BASE_URL}/api/upload"
     
     # 测试图片
     test_image = Path("test.png")
@@ -28,7 +45,7 @@ def test_upload_api():
     # 上传图片
     with open(test_image, 'rb') as f:
         files = {'file': (test_image.name, f, 'image/png')}
-        response = requests.post(url, files=files)
+        response = requests.post(url, files=files, timeout=5)
     
     # 检查响应
     if response.status_code != 200:
